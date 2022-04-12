@@ -1,5 +1,5 @@
 from environment import Environment
-from BFSAgent import BFSAgent
+from agents.bfs import BFSAgent
 N = 2
 cells = [1, 2, 0, 3]
 

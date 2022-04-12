@@ -15,15 +15,7 @@ class Environment:
 
     def swapCell(self, r:int, c:int, i:int, j:int):
         clone_cells = self.copy()
-        # try:
-        #     clone_cells[r * self.width + c], clone_cells[i * self.width + j] \
-        #         = clone_cells[i * self.width + j], clone_cells[r * self.width + c] 
-        # except Exception as e:
-        #     print(e)
-        #     print("Error")
-        #     print(clone_cells)
-        #     print(r, c, i, j)
-        #     print(r * self.width + c, i * self.width + j)
+        
         clone_cells[r * self.width + c], clone_cells[i * self.width + j] \
                 = clone_cells[i * self.width + j], clone_cells[r * self.width + c]
         return clone_cells
