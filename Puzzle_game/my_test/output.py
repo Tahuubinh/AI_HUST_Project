@@ -1,49 +1,24 @@
-import sys
-import random
-from enum import IntEnum
-from PyQt5.QtWidgets import QLabel, QWidget, QApplication, QGridLayout, QMessageBox
-from PyQt5.QtGui import QFont, QPalette
-from PyQt5.QtCore import Qt
-from PyQt5 import QtCore, QtGui, QtWidgets
+# -*- coding: utf-8 -*-
 
-class Direction(IntEnum):
-        UP = 0
-        DOWN = 1
-        LEFT = 2
-        RIGHT = 3 
+# Form implementation generated from reading ui file 'ui2.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QLabel, QWidget
 
 class Ui_Form(QWidget):
     def __init__(self):
-        #super().__init__()
-        self.blocks = []
-        self.zero_row = 0
-        self.zero_column = 0
-        self.num_row = 2
-        self.gltMain = QGridLayout()
-        # self.gltMain.setSpacing(int(720 / self.num_row))
-        #self.initUI()
-
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Space:
-            self.test_method()
+        super().__init__()
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1030, 783)
-        
         self.widget = QtWidgets.QWidget(Form)
         self.widget.setGeometry(QtCore.QRect(0, 50, 720, 720))
         self.widget.setObjectName("widget")
-        self.widget.setLayout(self.gltMain)
-        self.gltMain.setSpacing(20)
-        self.onInit()
-        # Set layout.
-        self.widget.setLayout(self.gltMain)
-        # Set window title.
-        #self.widget.setWindowTitle('N-puzzle Game.')
-        # Set window background color.
-        self.widget.setStyleSheet("background-color:gray;")
-
         self.pushButton_1 = QtWidgets.QPushButton(Form)
         self.pushButton_1.setGeometry(QtCore.QRect(730, 50, 281, 31))
         font = QtGui.QFont()
@@ -101,7 +76,7 @@ class Ui_Form(QWidget):
         self.pushButton_8.setFont(font)
         self.pushButton_8.setObjectName("pushButton_8")
         self.labelCombobox = QtWidgets.QLabel(Form)
-        self.labelCombobox.setGeometry(QtCore.QRect(20, 10, 200, 21))
+        self.labelCombobox.setGeometry(QtCore.QRect(10, 10, 141, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setBold(True)
@@ -109,7 +84,7 @@ class Ui_Form(QWidget):
         self.labelCombobox.setFont(font)
         self.labelCombobox.setObjectName("labelCombobox")
         self.comboBox = QtWidgets.QComboBox(Form)
-        self.comboBox.setGeometry(QtCore.QRect(196, 12, 69, 22))
+        self.comboBox.setGeometry(QtCore.QRect(160, 10, 69, 22))
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
@@ -599,7 +574,7 @@ class Ui_Form(QWidget):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_1.setText(_translate("Form", "a"))
+        self.pushButton_1.setText(_translate("Form", "PushButton"))
         self.pushButton_2.setText(_translate("Form", "PushButton"))
         self.pushButton_3.setText(_translate("Form", "PushButton"))
         self.pushButton_4.setText(_translate("Form", "PushButton"))
@@ -607,7 +582,7 @@ class Ui_Form(QWidget):
         self.pushButton_6.setText(_translate("Form", "PushButton"))
         self.pushButton_7.setText(_translate("Form", "PushButton"))
         self.pushButton_8.setText(_translate("Form", "PushButton"))
-        self.labelCombobox.setText(_translate("Form", "Number of rows:"))
+        self.labelCombobox.setText(_translate("Form", "Number of rows"))
         self.comboBox.setItemText(0, _translate("Form", "2"))
         self.comboBox.setItemText(1, _translate("Form", "3"))
         self.comboBox.setItemText(2, _translate("Form", "4"))
@@ -618,21 +593,6 @@ class Ui_Form(QWidget):
         self.comboBox.setItemText(7, _translate("Form", "9"))
         self.comboBox.setItemText(8, _translate("Form", "10"))
         self.resetBtn.setText(_translate("Form", "Reset"))
-        #self.resetBtn.clicked.connect(lambda: print("hello"))
-        self.clicked()
-        def clicked():
-            for i in reversed(range(self.gltMain.count())): 
-                self.gltMain.itemAt(i).widget().setParent(None)
-            content = int(self.comboBox.currentText())
-            
-            self.num_row = content
-            self.onInit()
-            # for i in range(500):
-            #     random_num = random.randint(0, 3)
-            #     self.move(Direction(random_num))
-            # self.updatePanel()
-        self.resetBtn.clicked.connect(clicked)
-
         self.time_1.setText(_translate("Form", "  Time: "))
         self.num_of_steps_1.setText(_translate("Form", "  Number of steps: "))
         self.num_of_steps_2.setText(_translate("Form", "  Number of steps: "))
@@ -650,139 +610,20 @@ class Ui_Form(QWidget):
         self.num_of_steps_8.setText(_translate("Form", "  Number of steps: "))
         self.time_8.setText(_translate("Form", "  Time: "))
 
-    def clicked(self):
-        print("fsadf")
-
-    def initUI(self):      
-        # Set number block spacing
-        self.gltMain.setSpacing(20)
-        self.onInit()
-        # Set layout.
-        self.setLayout(self.gltMain)
-        # Set window width and height.
-        self.setFixedSize(400, 400)
-        # Set window title.
-        self.setWindowTitle('N-puzzle Game.')
-        # Set window background color.
-        self.setStyleSheet("background-color:gray;")
-        #self.show()
-    # Initialize layout.
-    def onInit(self):
-        # Create sequential array.
-        self.numbers = list(range(1, self.num_row * self.num_row))
-        self.numbers.append(0)
-        # Add number to the two-dimensional array.
-        self.blocks = []
-        for row in range(self.num_row):
-            self.blocks.append([])
-            for column in range(self.num_row):
-                temp = self.numbers[row * self.num_row + column]
-                if temp == 0:
-                    self.zero_row = row
-                    self.zero_column = column
-                self.blocks[row].append(temp)
-        # Scrambling the array.
-        for i in range(500):
-            random_num = random.randint(0, 3)
-            self.move(Direction(random_num))
-        self.updatePanel()
-    # Detect key press event.
-    def keyPressEvent(self, e):
-        print("haa")
-
-    # def keyPressEvent(self, event):
-    #     key = event.key()
-    #     if(key == Qt.Key_Up or key == Qt.Key_W):
-    #         self.move(Direction.UP)
-    #     if(key == Qt.Key_Down or key == Qt.Key_S):
-    #         self.move(Direction.DOWN)
-    #     if(key == Qt.Key_Left or key == Qt.Key_A):
-    #         self.move(Direction.LEFT)
-    #     if(key == Qt.Key_Right or key == Qt.Key_D):
-    #         self.move(Direction.RIGHT)
-    #     self.updatePanel()
-    #     if self.checkResult():
-    #         if QMessageBox.Ok == QMessageBox.information(self, 'Challenge Results', 'Congratulations on completing the challenge!'):
-    #             self.onInit()
     
-    # Block moving algorithm.
-    def move(self, direction):
-        if(direction == Direction.UP): # Move up.
-            if self.zero_row != self.num_row - 1:
-                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row + 1][self.zero_column]
-                self.blocks[self.zero_row + 1][self.zero_column] = 0
-                self.zero_row += 1
-        if(direction == Direction.DOWN): # Move down.
-            if self.zero_row != 0:
-                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row - 1][self.zero_column]
-                self.blocks[self.zero_row - 1][self.zero_column] = 0
-                self.zero_row -= 1
-        if(direction == Direction.LEFT): # Move left.
-            if self.zero_column != self.num_row - 1:
-                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row][self.zero_column + 1]
-                self.blocks[self.zero_row][self.zero_column + 1] = 0
-                self.zero_column += 1
-        if(direction == Direction.RIGHT): # Move right.
-            if self.zero_column != 0:
-                self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row][self.zero_column - 1]
-                self.blocks[self.zero_row][self.zero_column - 1] = 0
-                self.zero_column -= 1
-    def updatePanel(self):
-        for row in range(self.num_row):
-            for column in range(self.num_row):
-                self.gltMain.addWidget(Block(self.blocks[row][column], int(720 / self.num_row) - 15), row, column)
-        self.widget.setLayout(self.gltMain)
-    # Check whether the challenge is completed or not.
-    def checkResult(self):
-        # First check whether the block value in the bottom right corner is 0。
-        if self.blocks[self.num_row - 1][self.num_row - 1] != 0:
-            return False
-        for row in range(self.num_row):
-            for column in range(self.num_row):
-                # The value of the block in the bottom right corner is 0, pass.
-                if row == self.num_row - 1 and column == self.num_row - 1:
-                    pass
-                # Check whether the square block number is correct number.
-                elif self.blocks[row][column] != row * self.num_row + column + 1:
-                    return False
-        return True
-
-class Block(QLabel):
-    """ Number block """
-    def __init__(self, number, fixed_size):
-        super().__init__()
-        self.number = number
-        self.fixed_size = fixed_size
-        self.setFixedSize(self.fixed_size, self.fixed_size)
-        # Set text font.
-        font = QFont()
-        font.setPointSize(30)
-        font.setBold(True)
-        self.setFont(font)
-        # Set text color.
-        pa = QPalette()
-        pa.setColor(QPalette.WindowText, Qt.white)
-        self.setPalette(pa)
-        # Set text alignment.
-        self.setAlignment(Qt.AlignCenter)
-        # Set background color, filleted corner and text content。
-        if self.number == 0:
-            self.setStyleSheet("background-color:white;border-radius:10px;")
-        else:
-            self.setStyleSheet("background-color:red;border-radius:10px;")
-            self.setText(str(self.number))  
 
 class Temp(QWidget):
     def __init__(self):
         super().__init__()
 
     def keyPressEvent(self, event):
-        print("haha") 
+        print("haha")
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
+    # Form = QtWidgets.QWidget()
+    Form = Temp()
     ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
