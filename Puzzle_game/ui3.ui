@@ -1486,6 +1486,16 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>40</y>
+     <width>291</width>
+     <height>731</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
