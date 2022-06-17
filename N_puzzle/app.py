@@ -7,6 +7,8 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from ui_object.Block import Block
+from bfs.bfs import BFSAgent
+import math
 # Using enumeration class to represent direction.
 class Direction(IntEnum):
     UP = 0
@@ -603,9 +605,12 @@ class NumberNPuzzle(QMainWindow):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.pushButton_1.setText(_translate("Form", "BFS"))
         def BFS():
-            print(self.blocks)
-            self.time_1.setText(_translate("Form", "  Time: 2s"))
-            self.num_of_steps_1.setText(_translate("Form", "  Number of steps: 3"))
+            cells = [x for xs in self.blocks for x in xs]
+            bfs = BFSAgent(cells, math.isqrt(len(cells)))
+            time, num_steps = bfs.findMinimumSteps()
+            a = str(round(time, 5))
+            self.time_1.setText(_translate("Form", "  Time: " + str(a)))
+            self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         self.pushButton_1.clicked.connect(BFS)
         self.pushButton_2.setText(_translate("Form", "PushButton"))
         self.pushButton_3.setText(_translate("Form", "PushButton"))

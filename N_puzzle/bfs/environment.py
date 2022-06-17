@@ -44,13 +44,7 @@ class Environment:
         for action, (row, col) in actions.items():
             if row >= 0 and row < self.width and \
              col >= 0 and col < self.width:
-                move = self.swapCell(empty_space_row, empty_space_col,
-                 row, col), action
+                move = self.swapCell(empty_space_row, empty_space_col, row, col), action
                 moves.append(move)
         
         return moves
-
-    # def show(self):
-    #     new_node = Node(self.cells)
-    #     print(new_node.getState()[0])
-    #     return self.cells
