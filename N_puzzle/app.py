@@ -20,6 +20,7 @@ class NumberNPuzzle(QMainWindow):
     def __init__(self):
         super(NumberNPuzzle, self).__init__()
         self.blocks = []
+        self.num_suffling = 500
         self.zero_row = 0
         self.zero_column = 0
         self.num_row = 4
@@ -671,7 +672,7 @@ class NumberNPuzzle(QMainWindow):
                     self.zero_column = column
                 self.blocks[row].append(temp)
         # Scrambling the array.
-        for i in range(500):
+        for i in range(self.num_suffling):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
         self.updatePanel()
