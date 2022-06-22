@@ -93,36 +93,36 @@ class Block_Puzzle:
 		string = "\n".join("\t".join('%i' %x for x in y) for y in array)
 		return string
 
-	def is_solvable(self):
-		"""
-		Returns true if the board is solvable, false if not.
-		This algorithmic solution provided by Adam Smith, Ph.D.
-		"""
-		# Flatten list, remove 0
-		flat = []
-		row0 = 0
-		for row in range(self.height):
-			for col in range(self.width):
-				for key in self.blocks:
-					if self.blocks[key][0] == col and self.blocks[key][1] == row:
-						if key == 0:
-							row0 = row
-						else:
-							flat.append(key)
+	# def is_solvable(self):
+	# 	"""
+	# 	Returns true if the board is solvable, false if not.
+	# 	This algorithmic solution provided by Adam Smith, Ph.D.
+	# 	"""
+	# 	# Flatten list, remove 0
+	# 	flat = []
+	# 	row0 = 0
+	# 	for row in range(self.height):
+	# 		for col in range(self.width):
+	# 			for key in self.blocks:
+	# 				if self.blocks[key][0] == col and self.blocks[key][1] == row:
+	# 					if key == 0:
+	# 						row0 = row
+	# 					else:
+	# 						flat.append(key)
 			
-		# Count inversions
-		count = 0
-		for block in flat:
-			for tile2 in flat:
-				if flat.index(tile2) < flat.index(block) and tile2 > block:
-					count += 1
+	# 	# Count inversions
+	# 	count = 0
+	# 	for block in flat:
+	# 		for tile2 in flat:
+	# 			if flat.index(tile2) < flat.index(block) and tile2 > block:
+	# 				count += 1
 
-		if self.height % 2 == 0:
-			if count % 2 == 0:
-				return True
-		elif (count + (self.height - row0 - 1)) % 2 == 0:
-			return True
-		return False
+	# 	if self.height % 2 == 0:
+	# 		if count % 2 == 0:
+	# 			return True
+	# 	elif (count + (self.height - row0 - 1)) % 2 == 0:
+	# 		return True
+	# 	return False
 
 	def create_solved_puzzle(self):
 		"""
@@ -347,8 +347,8 @@ def solve(cellArr):
 	puzzle = Block_Puzzle(cellArr)
 
 	# is this puzzle solvable?
-	if not puzzle.is_solvable():
-		return None
+	# if not puzzle.is_solvable():
+	# 	return None
 
 	# find the solution puzzle for the given puzzle.
 	goal = puzzle.create_solved_puzzle()
@@ -381,9 +381,9 @@ def solve(cellArr):
 # 		[9,10,11,8]]
 # print(solve(easy))
 
-board = [[8,2,7],
-		[4,1,5],
-		[3,6,0]]
+board = [[8,5,1],
+		[6,7,0],
+		[3,2,4]]
 begin = time.time()
 print(solve(board))
 print(time.time() - begin)

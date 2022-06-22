@@ -8,6 +8,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from ui_object.Block import Block
 from Uninformed_search import BFSAgent
+from A_asterisk import AASTERISK
 import math
 # Using enumeration class to represent direction.
 class Direction(IntEnum):
@@ -20,7 +21,7 @@ class NumberNPuzzle(QMainWindow):
     def __init__(self):
         super(NumberNPuzzle, self).__init__()
         self.blocks = []
-        self.num_suffling = 500
+        self.num_suffle = 200
         self.zero_row = 0
         self.zero_column = 0
         self.num_row = 4
@@ -604,6 +605,7 @@ class NumberNPuzzle(QMainWindow):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+
         self.pushButton_1.setText(_translate("Form", "BFS"))
         def BFS():
             cells = [x for xs in self.blocks for x in xs]
@@ -613,7 +615,16 @@ class NumberNPuzzle(QMainWindow):
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
             self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         self.pushButton_1.clicked.connect(BFS)
-        self.pushButton_2.setText(_translate("Form", "PushButton"))
+
+        self.pushButton_2.setText(_translate("Form", "A* (Manhattan)"))
+        def AStarMHT():
+            a_star = AASTERISK(self.blocks, len(self.blocks[0]))
+            time, num_steps = a_star.findMinimumSteps()
+            a = str(round(time, 5))
+            self.time_2.setText(_translate("Form", "  Time: " + str(a)))
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+        self.pushButton_2.clicked.connect(AStarMHT)
+
         self.pushButton_3.setText(_translate("Form", "PushButton"))
         self.pushButton_4.setText(_translate("Form", "PushButton"))
         self.pushButton_5.setText(_translate("Form", "PushButton"))
@@ -672,7 +683,7 @@ class NumberNPuzzle(QMainWindow):
                     self.zero_column = column
                 self.blocks[row].append(temp)
         # Scrambling the array.
-        for i in range(self.num_suffling):
+        for i in range(self.num_suffle):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
         self.updatePanel()
