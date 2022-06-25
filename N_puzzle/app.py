@@ -630,13 +630,15 @@ class NumberNPuzzle(QMainWindow):
             print(num_steps)
             a = str(round(time, 5))
             self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
         def AStarMHT():
             a_star = AASTERISK(self.blocks, len(self.blocks[0]))
             time, num_steps = a_star.findMinimumSteps()
             a = str(round(time, 6))
             self.time_3.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + b))
         
         self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
