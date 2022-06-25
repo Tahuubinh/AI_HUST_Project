@@ -622,14 +622,16 @@ class NumberNPuzzle(QMainWindow):
             time, num_steps = bfs.findMinimumSteps()
             a = str(round(time, 6))
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + b))
         def DFS():
             cells = [x for xs in self.blocks for x in xs]
             dfs = DFSAgent(cells, math.isqrt(len(cells)))
             time, num_steps = dfs.findMinimumSteps()
             a = str(round(time, 5))
             self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
         def IDS():
             cells = [x for xs in self.blocks for x in xs]
             ids = IDSAgent(cells, math.isqrt(len(cells)))
@@ -642,7 +644,8 @@ class NumberNPuzzle(QMainWindow):
             time, num_steps = a_star.findMinimumSteps()
             a = str(round(time, 6))
             self.time_4.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_4.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_4.setText(_translate("Form", "  Number of steps: " + b))
         
         self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
