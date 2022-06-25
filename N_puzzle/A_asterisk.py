@@ -49,8 +49,7 @@ class Block_Puzzle:
 
         for row in range(len(blockList)):
             for col in range(len(blockList[0])):
-                dictionary[blockList[row][col]] = (col, row);
-
+                dictionary[blockList[row][col]] = (col, row)
         return dictionary
 
     def __get_width__(self):
@@ -220,6 +219,7 @@ class AASTERISK:
 
         # For the first node, that value is completely heuristic.
         fScore[start] = start.heuristic_estimate_manhattan(goal)
+        # print(goal.blocks)
 
         # While there are yet nodes to inspect,
         while openHeap:
