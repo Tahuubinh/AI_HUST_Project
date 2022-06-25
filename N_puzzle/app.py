@@ -621,7 +621,8 @@ class NumberNPuzzle(QMainWindow):
             time, num_steps = bfs.findMinimumSteps()
             a = str(round(time, 6))
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + b))
         def DFS():
             cells = [x for xs in self.blocks for x in xs]
             dfs = DFSAgent(cells, math.isqrt(len(cells)))
