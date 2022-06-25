@@ -6,10 +6,10 @@ from PyQt5.QtGui import QFont, QPalette
 from PyQt5.QtCore import Qt
 # Using enumeration class to represent direction.
 class Direction(IntEnum):
-    UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
+    UP = 1
+    DOWN = 0
+    LEFT = 3
+    RIGHT = 2
 class NumberNPuzzle(QWidget):
     """ N-puzzle main program """
     def __init__(self):
@@ -56,13 +56,13 @@ class NumberNPuzzle(QWidget):
     def keyPressEvent(self, event):
         key = event.key()
         if(key == Qt.Key_Up or key == Qt.Key_W):
-            self.move(Direction.UP)
-        if(key == Qt.Key_Down or key == Qt.Key_S):
             self.move(Direction.DOWN)
+        if(key == Qt.Key_Down or key == Qt.Key_S):
+            self.move(Direction.UP)
         if(key == Qt.Key_Left or key == Qt.Key_A):
-            self.move(Direction.LEFT)
-        if(key == Qt.Key_Right or key == Qt.Key_D):
             self.move(Direction.RIGHT)
+        if(key == Qt.Key_Right or key == Qt.Key_D):
+            self.move(Direction.LEFT)
         self.updatePanel()
         if self.checkResult():
             if QMessageBox.Ok == QMessageBox.information(self, 'Challenge Results', 'Congratulations on completing the challenge!'):
