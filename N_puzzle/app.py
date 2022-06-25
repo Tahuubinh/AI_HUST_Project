@@ -9,7 +9,10 @@ from PyQt5.QtWidgets import QMainWindow
 from ui_object.Block import Block
 from bfs.bfs import BFSAgent
 from dfs.dfs import DFSAgent
+from Uninformed_search import BFSAgent
+from A_asterisk import AASTERISK
 import math
+from PyQt5.QtWidgets import QLineEdit
 # Using enumeration class to represent direction.
 class Direction(IntEnum):
     UP = 0
@@ -21,6 +24,7 @@ class NumberNPuzzle(QMainWindow):
     def __init__(self):
         super(NumberNPuzzle, self).__init__()
         self.blocks = []
+        self.num_suffle = 200
         self.zero_row = 0
         self.zero_column = 0
         self.num_row = 3
@@ -103,12 +107,19 @@ class NumberNPuzzle(QMainWindow):
         self.pushButton_8.setObjectName("pushButton_8")
         self.labelCombobox = QtWidgets.QLabel(self)
         self.labelCombobox.setGeometry(QtCore.QRect(20, 10, 200, 21))
+        self.labelShuffle = QtWidgets.QLabel(self)
+        self.labelShuffle.setGeometry(QtCore.QRect(500, 10, 200, 21))
+        self.textShuffle = QLineEdit(self)
+        self.textShuffle.move(590, 10)
+        self.textShuffle.resize(50,21)
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.labelCombobox.setFont(font)
         self.labelCombobox.setObjectName("labelCombobox")
+        self.labelShuffle.setFont(font)
+        self.labelShuffle.setObjectName("labelShuffle")
         self.comboBox = QtWidgets.QComboBox(self)
         self.comboBox.setGeometry(QtCore.QRect(196, 12, 69, 22))
         self.comboBox.setObjectName("comboBox")
@@ -608,7 +619,7 @@ class NumberNPuzzle(QMainWindow):
             cells = [x for xs in self.blocks for x in xs]
             bfs = BFSAgent(cells, math.isqrt(len(cells)))
             time, num_steps = bfs.findMinimumSteps()
-            a = str(round(time, 5))
+            a = str(round(time, 6))
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
             self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         def DFS():
@@ -619,18 +630,29 @@ class NumberNPuzzle(QMainWindow):
             a = str(round(time, 5))
             self.time_2.setText(_translate("Form", "  Time: " + str(a)))
             self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+        def AStarMHT():
+            a_star = AASTERISK(self.blocks, len(self.blocks[0]))
+            time, num_steps = a_star.findMinimumSteps()
+            a = str(round(time, 6))
+            self.time_3.setText(_translate("Form", "  Time: " + str(a)))
+            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         
         self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
         self.pushButton_2.setText(_translate("Form", "DFS"))
         self.pushButton_2.clicked.connect(DFS)
         self.pushButton_3.setText(_translate("Form", "PushButton"))
+        self.pushButton_3.setText(_translate("Form", "A* (Manhattan)"))
+        self.pushButton_3.clicked.connect(AStarMHT)
+
         self.pushButton_4.setText(_translate("Form", "PushButton"))
         self.pushButton_5.setText(_translate("Form", "PushButton"))
         self.pushButton_6.setText(_translate("Form", "PushButton"))
         self.pushButton_7.setText(_translate("Form", "PushButton"))
         self.pushButton_8.setText(_translate("Form", "PushButton"))
+
         self.labelCombobox.setText(_translate("Form", "Number of rows:"))
+        self.labelShuffle.setText(_translate("Form", "Shuffle:"))
         self.comboBox.setItemText(0, _translate("Form", "2"))
         self.comboBox.setItemText(1, _translate("Form", "3"))
         self.comboBox.setItemText(2, _translate("Form", "4"))
@@ -640,15 +662,21 @@ class NumberNPuzzle(QMainWindow):
         self.comboBox.setItemText(6, _translate("Form", "8"))
         self.comboBox.setItemText(7, _translate("Form", "9"))
         self.comboBox.setItemText(8, _translate("Form", "10"))
+
         self.comboBox.setCurrentText(str(self.num_row))
         self.resetBtn.setText(_translate("Form", "Reset"))
         #self.resetBtn.clicked.connect(lambda: print("hello"))
         def reset():
-            self.comboBox.setCurrentText(self.comboBox.currentText())            
+            self.comboBox.setCurrentText(self.comboBox.currentText())   
+            try:
+                self.num_suffle = int(self.textShuffle.text())
+            except Exception as e:
+                return         
             for i in reversed(range(self.gltMain.count())): 
                 self.gltMain.itemAt(i).widget().setParent(None)
             content = int(self.comboBox.currentText())
             self.num_row = content
+    
             self.onInit()
         self.resetBtn.clicked.connect(reset)
 
@@ -684,7 +712,7 @@ class NumberNPuzzle(QMainWindow):
                     self.zero_column = column
                 self.blocks[row].append(temp)
         # Scrambling the array.
-        for i in range(500):
+        for i in range(self.num_suffle):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
         self.updatePanel()

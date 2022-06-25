@@ -1,30 +1,14 @@
-from environment import Environment
-from agents.bfs import BFSAgent
-import time
-N = 2
-#cells = [1, 2, 3, 0]
-cells = [3, 1, 2, 0]
+from Uninformed_search import BFSAgent
+import math
 
-env = Environment(width = N, cells = cells)
-bfs_agent = BFSAgent(env)
-
-start = time.time()
-ans, path = bfs_agent.findMinimumSteps()
-print(ans)
-print(path)
-end = time.time()
-print(end - start)
-
-# start = time.time()
-# a = 0
-# for i in range(10000):
-#     a = a + 1
-# end = time.time()
-# print(end - start)
-# ans = bfs_agent.solve()
-# print(ans)
-# for path in reversed(ans):
-# 		soln = ''
-# 		for elem in path:
-# 			soln += str(elem)+' '
-# 		print(soln)
+cells = [8,5,1,
+		6,7,0,
+		3,2,4]
+cells = [6,5,2,3,
+        0,7,11,4,
+        9,1,10,8,
+        15,14,13,12]
+bfs = BFSAgent(cells, math.isqrt(len(cells)))
+time, num_steps = bfs.findMinimumSteps()
+print(time)
+print(num_steps)
