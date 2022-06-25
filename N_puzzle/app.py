@@ -8,6 +8,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from ui_object.Block import Block
 from bfs.bfs import BFSAgent
+from dfs.dfs import DFSAgent
 import math
 # Using enumeration class to represent direction.
 class Direction(IntEnum):
@@ -22,7 +23,7 @@ class NumberNPuzzle(QMainWindow):
         self.blocks = []
         self.zero_row = 0
         self.zero_column = 0
-        self.num_row = 4
+        self.num_row = 3
         self.gltMain = QGridLayout()
         self.initUI()
 
@@ -603,7 +604,6 @@ class NumberNPuzzle(QMainWindow):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_1.setText(_translate("Form", "BFS"))
         def BFS():
             cells = [x for xs in self.blocks for x in xs]
             bfs = BFSAgent(cells, math.isqrt(len(cells)))
@@ -611,8 +611,19 @@ class NumberNPuzzle(QMainWindow):
             a = str(round(time, 5))
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
             self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+        def DFS():
+            cells = [x for xs in self.blocks for x in xs]
+            dfs = DFSAgent(cells, math.isqrt(len(cells)))
+            time, num_steps = dfs.findMinimumSteps()
+            print(num_steps)
+            a = str(round(time, 5))
+            self.time_2.setText(_translate("Form", "  Time: " + str(a)))
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+        
+        self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
-        self.pushButton_2.setText(_translate("Form", "PushButton"))
+        self.pushButton_2.setText(_translate("Form", "DFS"))
+        self.pushButton_2.clicked.connect(DFS)
         self.pushButton_3.setText(_translate("Form", "PushButton"))
         self.pushButton_4.setText(_translate("Form", "PushButton"))
         self.pushButton_5.setText(_translate("Form", "PushButton"))
@@ -629,9 +640,11 @@ class NumberNPuzzle(QMainWindow):
         self.comboBox.setItemText(6, _translate("Form", "8"))
         self.comboBox.setItemText(7, _translate("Form", "9"))
         self.comboBox.setItemText(8, _translate("Form", "10"))
+        self.comboBox.setCurrentText(str(self.num_row))
         self.resetBtn.setText(_translate("Form", "Reset"))
         #self.resetBtn.clicked.connect(lambda: print("hello"))
         def reset():
+            self.comboBox.setCurrentText(self.comboBox.currentText())            
             for i in reversed(range(self.gltMain.count())): 
                 self.gltMain.itemAt(i).widget().setParent(None)
             content = int(self.comboBox.currentText())
@@ -679,13 +692,13 @@ class NumberNPuzzle(QMainWindow):
     def keyPressEvent(self, event):
         key = event.key()
         if(key == Qt.Key_Up or key == Qt.Key_W):
-            self.move(Direction.UP)
-        if(key == Qt.Key_Down or key == Qt.Key_S):
             self.move(Direction.DOWN)
+        if(key == Qt.Key_Down or key == Qt.Key_S):
+            self.move(Direction.UP)
         if(key == Qt.Key_Left or key == Qt.Key_A):
-            self.move(Direction.LEFT)
-        if(key == Qt.Key_Right or key == Qt.Key_D):
             self.move(Direction.RIGHT)
+        if(key == Qt.Key_Right or key == Qt.Key_D):
+            self.move(Direction.LEFT)
         self.updatePanel()
         if self.checkResult():
             if QMessageBox.Ok == QMessageBox.information(self, 'Challenge Results', 'Congratulations on completing the challenge!'):

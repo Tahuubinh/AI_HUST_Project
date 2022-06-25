@@ -1,9 +1,9 @@
 from collections import deque
-#from nodeBFS import Node
+#from nodeDFS import Node
 from cmath import inf
 import math, time
 
-class BFSAgent:
+class DFSAgent:
     def __init__(self, cells, width) -> None:
         self.cells = cells
         self.width = width
@@ -12,13 +12,13 @@ class BFSAgent:
 
     def findMinimumSteps(self):
         start = time.time()
-        BFSqueue = deque([Node(cells = self.cells, width = self.width)])
+        DFSqueue = deque([Node(cells = self.cells, width = self.width)])
         # if using list, error: unhashable type: 'list'
         visited = set()
-        visited.add(str(BFSqueue[0].cells))
+        visited.add(str(DFSqueue[0].cells))
 
-        while BFSqueue:
-            node = BFSqueue.pop()
+        while DFSqueue:
+            node = DFSqueue.pop()
             node_ord_step = node.ordinal_step
             if node.isSolved():
                 if node_ord_step < self.minimum_steps:
@@ -28,7 +28,7 @@ class BFSAgent:
                 child = Node(cells = next_state, width = self.width, parent = node, 
                     ordinal_step = node_ord_step + 1)
                 if str(child.cells) not in visited:
-                    BFSqueue.appendleft(child)
+                    DFSqueue.append(child)
                     visited.add(str(child.cells))
         end = time.time()
         duration = end - start
@@ -86,5 +86,5 @@ class Node:
 
 # cells = [1,2,0,3]
 # cells = [6,3,8,0,1,5,7,2,4]
-# bfs = BFSAgent(cells, math.isqrt(len(cells)))
-# print(bfs.findMinimumSteps())
+# DFS = DFSAgent(cells, math.isqrt(len(cells)))
+# print(DFS.findMinimumSteps())
