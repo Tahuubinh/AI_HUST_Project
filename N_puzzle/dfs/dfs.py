@@ -12,27 +12,32 @@ class DFSAgent:
 
     def findMinimumSteps(self):
         start = time.time()
-        DFSqueue = deque([Node(cells = self.cells, width = self.width)])
+        DFSstack = list([Node(cells = self.cells, width = self.width)])
         # if using list, error: unhashable type: 'list'
         visited = set()
-        visited.add(str(DFSqueue[0].cells))
 
-        while DFSqueue:
-            node = DFSqueue.pop()
+        while DFSstack:
+            node = DFSstack.pop()
+            visited.add(str(node.cells))
+
             node_ord_step = node.ordinal_step
             if node.isSolved():
                 if node_ord_step < self.minimum_steps:
                     self.minimum_steps = node_ord_step
                     self.minimum_steps_node = node
-            for next_state, action in node.getNextStates():
+                    break
+            neighbors = reversed(node.getNextStates())
+            for next_state, action in neighbors:
                 child = Node(cells = next_state, width = self.width, parent = node, 
                     ordinal_step = node_ord_step + 1)
                 if str(child.cells) not in visited:
-                    DFSqueue.append(child)
+                    DFSstack.append(child)
                     visited.add(str(child.cells))
+
+
         end = time.time()
         duration = end - start
-
+        # print(self.minimum_steps)
         return duration, self.minimum_steps #, self.minimum_steps_node.getPath()
 
 class Node:

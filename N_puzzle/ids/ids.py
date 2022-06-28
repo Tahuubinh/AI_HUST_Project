@@ -2,7 +2,8 @@ from collections import deque
 #from nodeIDS import Node
 from cmath import inf
 import math, time
-
+from platform import node
+import numpy as np
 class IDSAgent:
     def __init__(self, cells, width) -> None:
         self.cells = cells
@@ -15,56 +16,88 @@ class IDSAgent:
         w = self.width
         # i, num_cells = 0, len(self.cells)
         for i, v in enumerate(self.cells, 1):
+            if i == w * w:
+                continue
             i1 = i % w
-            i2 = (i-i1)/w
+            i2 = (i-i1)/w + 1
             if i1 == 0:
                 i1 = w
-                i2 = i/w
+                i2 = i/w 
 
             v1 = v % w
-            v2 = (v-v1)/w
+            v2 = (v-v1)/w + 1
             if v1 == 0:
                 v1 = w
                 v2 = v/w
-            cnt += abs(i1 + i2 - v1 - v2)
-        
+            cnt += abs(i1 - v1) + abs(i2 - v2)
         self.numberBeginSteps = cnt
 
     def findMinimumSteps(self):
 
         start = time.time()
-        IDSqueue = deque([Node(cells = self.cells, width = self.width)])
-        # if using list, error: unhashable type: 'list'
-        visited = set()
-        visited.add(str(IDSqueue[0].cells))
-
         for i in range(int(self.numberBeginSteps), int(self.maximum_steps)):
-            IDSqueue = deque([Node(cells = self.cells, width = self.width)])
-            # if using list, error: unhashable type: 'list'
-            visited = set()
-            visited.add(str(IDSqueue[0].cells))
-            while IDSqueue:
-                node = IDSqueue.pop()
-                node_ord_step = node.ordinal_step
-                if node.isSolved():
-                    if node_ord_step < self.minimum_steps:
-                        self.minimum_steps = node_ord_step
-                        self.minimum_steps_node = node
-                    break
-                for next_state, action in node.getNextStates():
-                    child = Node(cells = next_state, width = self.width, parent = node, 
-                        ordinal_step = node_ord_step + 1)
-                    if str(child.cells) not in visited and node_ord_step < i:
-                        IDSqueue.append(child)
-                        visited.add(str(child.cells))
-            if self.minimum_steps != inf:
-                print("Number of steps: " + str(i))
+        # for i in range(1, 3):
+            src = Node(cells = self.cells, width = self.width)
+            self.visited = set()
+            # print("TTH")
+            # print(len(self.visited))
+            self.visited.add(str(src.cells)+(str(src.ordinal_step)))
+            if(self.DLS(src, i)):
                 break
-        end = time.time()
-        duration = end - start
+            # while IDSstack:
+            #     node = IDSstack.pop()
+            #     visited.add(str(node.cells))
+            #     node_ord_step = node.ordinal_step
 
+            #     if node.isSolved():
+            #         if node_ord_step < self.minimum_steps:
+            #             self.minimum_steps = node_ord_step
+            #             self.minimum_steps_node = node
+            #         break
+
+            #     if node_ord_step == i:
+            #         continue
+            #     neighbors = reversed(node.getNextStates())
+            #     for next_state, action in neighbors:
+            #         child = Node(cells = next_state, width = self.width, parent = node, 
+            #             ordinal_step = node_ord_step + 1)
+            #         if str(child.cells) not in visited:
+            #             IDSstack.append(child)
+            #             visited.add(str(child.cells))
+            #             if i < int(self.numberBeginSteps) + 5:
+            #                 print(np.reshape(child.cells, (3,3)))
+            #                 print(child.ordinal_step)
+            #                 print()
+            # if self.minimum_steps != inf:
+            #     print("Number of steps: " + str(i))
+            #     break
+        end = time.time()
+        duration = end - start   
         return duration, self.minimum_steps #, self.minimum_steps_node.getPath()
     
+    def DLS(self, src, limit):
+        # print(np.reshape((src.cells), (3, 3)))
+        node_ord_step = src.ordinal_step
+        # print("OK", limit)
+        if src.isSolved():
+            if node_ord_step < self.minimum_steps:
+                self.minimum_steps = node_ord_step
+                self.minimum_steps_node = src
+                return True
+        if(limit <= 0):
+            return False
+        for next_state, action in src.getNextStates():
+            child = Node(cells = next_state, width = self.width, parent = src, 
+                        ordinal_step = node_ord_step + 1)
+            # print(np.reshape((child.cells), (3, 3)))
+            # print("step", node_ord_step+1)
+            # print("cell" + str(child.cells)+(str(child.ordinal_step)))
+            if str(child.cells)+(str(child.ordinal_step)) not in self.visited:
+                # print("if step", node_ord_step+1)
+                self.visited.add(str(child.cells)+(str(child.ordinal_step)))
+                if(self.DLS(child, limit-1)):
+                    return True
+        return False
 
 
 class Node:
@@ -117,6 +150,6 @@ class Node:
 
 
 # # cells = [1,2,0,3]
-# cells = [6,3,8,0,1,5,7,2,4]
+# cells = [2, 0, 3, 1, 5, 6, 4, 7, 8]
 # IDS = IDSAgent(cells, math.isqrt(len(cells)))
 # print(IDS.findMinimumSteps())

@@ -116,7 +116,7 @@ class Block_Puzzle:
         for index in range(1, len(self.blocks), 1):
             if self.blocks[index] != other.blocks[index]:
                 estimate += 1
-
+        print("Estimate: " + str(estimate))
         return estimate
 
     def heuristic_estimate_maxSwap(self, other):

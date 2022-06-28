@@ -2,6 +2,7 @@ from collections import deque
 #from nodeBFS import Node
 from cmath import inf
 import math, time
+import numpy as np
 
 class BFSAgent:
     def __init__(self, cells, width) -> None:
@@ -30,9 +31,9 @@ class BFSAgent:
                 if str(child.cells) not in visited:
                     BFSqueue.appendleft(child)
                     visited.add(str(child.cells))
+
         end = time.time()
         duration = end - start
-
         return duration, self.minimum_steps #, self.minimum_steps_node.getPath()
 
 class Node:
@@ -85,6 +86,6 @@ class Node:
 
 
 # cells = [1,2,0,3]
-# cells = [6,3,8,0,1,5,7,2,4]
-# bfs = BFSAgent(cells, math.isqrt(len(cells)))
-# print(bfs.findMinimumSteps())
+# cells = [3, 4, 0, 1, 8, 2, 7, 5, 6]
+# BFS = BFSAgent(cells, math.isqrt(len(cells)))
+# print(BFS.findMinimumSteps())
