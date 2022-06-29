@@ -1,10 +1,10 @@
 from collections import deque
-#from nodeIDS import Node
+#from nodeIDA import Node
 from cmath import inf
 import math, time
 from platform import node
 import numpy as np
-class IDSAgent:
+class IDAAgent:
     def __init__(self, cells, width) -> None:
         self.cells = cells
         self.width = width
@@ -33,15 +33,18 @@ class IDSAgent:
                 v2 = v/w
             cnt += abs(i1 - v1) + abs(i2 - v2)
         self.numberBeginSteps = cnt
+        return cnt
 
     def findMinimumSteps(self):
 
         start = time.time()
-        for i in range(int(self.numberBeginSteps), int(self.maximum_steps)):
-            IDSstack = list([Node(cells = self.cells, width = self.width)])
+        threshold = self.numberBeginSteps
+        while 1:
+            IDAstack = list([Node(cells = self.cells, width = self.width, p_action = None, ordinal_step = 0, cost = 0, key=threshold)])
             visited = set()
-            while IDSstack:
-                node = IDSstack.pop()
+            cost = set()
+            while IDAstack:
+                node = IDAstack.pop()
                 visited.add(str(node.cells) + str(node.ordinal_step))
                 node_ord_step = node.ordinal_step
 
@@ -51,15 +54,19 @@ class IDSAgent:
                         self.minimum_steps_node = node
                     break
 
-                if node_ord_step == i:
-                    continue
-                neighbors = reversed(node.getNextStates())
-                for next_state, action in neighbors:
-                    child = Node(cells = next_state, width = self.width, parent = node, 
-                        ordinal_step = node_ord_step + 1)
-                    if str(child.cells) + str(child.ordinal_step) not in visited:
-                        IDSstack.append(child)
-                        visited.add(str(child.cells)+ str(child.ordinal_step) )                       
+                if node.key > threshold:
+                    cost.add(node.key)
+
+                if node.ordinal_step < threshold:
+                    neighbors = reversed(node.getNextStates())
+                    for next_state, action in neighbors:
+                        child = Node(cells = next_state, width = self.width, parent = node, 
+                            ordinal_step = node_ord_step + 1, key=None)
+                        if str(child.cells) + str(child.ordinal_step) not in visited:
+                            child.key = child.cost + self.h(child.cells)
+                            IDAstack.append(child)
+                            visited.add(str(child.cells)+ str(child.ordinal_step) )     
+            threshold = min(cost)                  
             if self.minimum_steps != inf:
                 print("Number of steps: " + str(self.minimum_steps))
                 break
@@ -70,12 +77,14 @@ class IDSAgent:
 
 
 class Node:
-    def __init__(self, cells, width:int, parent = None, p_action = None, ordinal_step = 0, cost = 0) -> None:
+    def __init__(self, cells, width:int, parent = None, p_action = None, ordinal_step = 0, cost = 0, key = None) -> None:
         self.cells = cells
         self.parent = parent
         self.p_action = p_action
         self.ordinal_step = ordinal_step
         self.width = int(width)
+        self.cost = cost
+        self.key = key
 
     def isSolved(self):
         i, num_cells = 0, len(self.cells)
@@ -120,5 +129,5 @@ class Node:
 
 # # cells = [1,2,0,3]
 # cells = [2, 0, 3, 1, 5, 6, 4, 7, 8]
-# IDS = IDSAgent(cells, math.isqrt(len(cells)))
-# print(IDS.findMinimumSteps())
+# IDA = IDAAgent(cells, math.isqrt(len(cells)))
+# print(IDA.findMinimumSteps())
