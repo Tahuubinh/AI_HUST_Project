@@ -604,10 +604,10 @@ class GreedyBestFirstSearch(AASTERISK):
 
 #### TESTING ####
 
-board = [[6,5,2,3],
-        [0,7,11,4],
-        [9,1,10,8],
-        [15,14,13,12]]
+# board = [[6,5,2,3],
+#         [0,7,11,4],
+#         [9,1,10,8],
+#         [15,14,13,12]]
 # print(solve(hard))
 
 # medium = [[1,2,3,4],
@@ -635,6 +635,6 @@ board = [[6,5,2,3],
 #a = AASTERISKWeighMHT(board, 4)
 #a = AASTERISKMaxSwap(board, 4)
 # a = GreedyBestFirstSearch(board, 4)
-a = AASTERISKLinearConflict(board, 4)
-duration, num_steps = a.findMinimumSteps()
-print(duration, num_steps)
+# a = AASTERISKLinearConflict(board, 4)
+# duration, num_steps = a.findMinimumSteps()
+# print(duration, num_steps)
