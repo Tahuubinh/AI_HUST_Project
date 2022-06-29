@@ -140,6 +140,38 @@ class Block_Puzzle:
 
         return estimate
 
+    def heuristic_estimate_linear_conflict(self, other):
+        """
+        https://algorithmsinsight.wordpress.com/graph-theory-2/a-star-in-general/implementing-a-star-to-solve-n-puzzle/
+        """
+        estimate = 0
+
+        for index in range(len(self.blocks)):
+            x_cur = self.blocks[index][0]
+            y_cur = self.blocks[index][1]
+            x_goal = other.blocks[index][0]
+            y_goal = other.blocks[index][1]
+            if x_cur == x_goal and y_cur == y_goal:
+                continue
+
+            estimate += abs(x_goal - x_cur) + abs(y_goal - y_cur)
+
+            if x_cur == x_goal:
+                index_begin = x_cur * self.width
+                index_end = index_begin + y_goal - 1
+                for i in range(index_begin, index_end):
+                    if self.blocks[i][0] == x_cur and self.blocks[i][1] > y_cur:
+                        estimate += 2
+
+            elif y_cur == y_goal:
+                index_begin = y_cur
+                index_end = (x_goal - 1) * self.width + y_cur
+                for i in range(index_begin, index_end, self.width):
+                    if self.blocks[i][1] == y_cur and self.blocks[i][0] > x_cur:
+                        estimate += 2
+
+        return estimate
+
     def get_neighbors(self, previous):
         """
         Gets all adjacent neighbors of the state, minus the previous.
@@ -455,6 +487,62 @@ class AASTERISKMaxSwap(AASTERISK):
                 
                 heapq.heappush(openHeap, neighbor)
 
+class AASTERISKLinearConflict(AASTERISK):
+    def __init__(self, board, width) -> None:
+        # self.board = board
+        # self.width = width
+        super().__init__(board, width)
+
+    def run_Astar(self, start, goal):
+        closedSet = set()
+        cameFrom = {}
+
+        global fScore
+        fScore = collections.defaultdict(lambda: float("inf"))
+
+        global gScore
+        gScore = collections.defaultdict(lambda: float("inf"))
+
+        gScore[start] = 0
+
+        openHeap = [start]
+        heapq.heapify(openHeap)
+
+        fScore[start] = start.heuristic_estimate_linear_conflict(goal)
+
+        while openHeap:
+            current = heapq.heappop(openHeap)
+
+            if current in closedSet:
+                continue
+
+            if current == goal:
+                end = time.time()
+                path = []
+                path.append(current)
+                cnt = 0
+                step = current
+                while(cameFrom.get(step)):
+                    path.append(cameFrom[step])
+                    step = cameFrom[step]
+                    cnt = cnt + 1
+                path.reverse()
+                return cnt, end
+
+            closedSet.add(current)
+
+            for neighbor in current.get_neighbors(cameFrom.get(current)):
+                if neighbor in closedSet:
+                    continue
+
+                tentative_gScore = gScore[current] + 1
+                if tentative_gScore < gScore[neighbor]:
+                    cameFrom[neighbor] = current
+                    gScore[neighbor] = tentative_gScore
+                    fScore[neighbor] = gScore[neighbor] + neighbor.heuristic_estimate_linear_conflict(goal)
+                
+                heapq.heappush(openHeap, neighbor)
+
 class GreedyBestFirstSearch(AASTERISK):
     def __init__(self, board, width) -> None:
         # self.board = board
@@ -516,10 +604,10 @@ class GreedyBestFirstSearch(AASTERISK):
 
 #### TESTING ####
 
-# board = [[6,5,2,3],
-#         [0,7,11,4],
-#         [9,1,10,8],
-#         [15,14,13,12]]
+board = [[6,5,2,3],
+        [0,7,11,4],
+        [9,1,10,8],
+        [15,14,13,12]]
 # print(solve(hard))
 
 # medium = [[1,2,3,4],
@@ -547,5 +635,6 @@ class GreedyBestFirstSearch(AASTERISK):
 #a = AASTERISKWeighMHT(board, 4)
 #a = AASTERISKMaxSwap(board, 4)
 # a = GreedyBestFirstSearch(board, 4)
-# duration, num_steps = a.findMinimumSteps()
-# print(duration, num_steps)
+a = AASTERISKLinearConflict(board, 4)
+duration, num_steps = a.findMinimumSteps()
+print(duration, num_steps)

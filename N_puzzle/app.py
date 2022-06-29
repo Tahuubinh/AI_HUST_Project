@@ -11,7 +11,7 @@ from bfs.bfs import BFSAgent
 from dfs.dfs import DFSAgent
 from ids.ids import IDSAgent
 from Uninformed_search import BFSAgent
-from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT, GreedyBestFirstSearch
+from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT, GreedyBestFirstSearch, AASTERISKLinearConflict
 import math
 from PyQt5.QtWidgets import QLineEdit
 # Using enumeration class to represent direction.
@@ -668,6 +668,14 @@ class NumberNPuzzle(QMainWindow):
             self.time_6.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_6.setText(_translate("Form", "  Number of steps: " + b))
+
+        def AStarLC():
+            a_star = AASTERISKLinearConflict(self.blocks, len(self.blocks[0]))
+            time, num_steps = a_star.findMinimumSteps()
+            a = str(round(time, 6))
+            self.time_7.setText(_translate("Form", "  Time: " + str(a)))
+            b = str(num_steps)
+            self.num_of_steps_7.setText(_translate("Form", "  Number of steps: " + b))
         
         self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
@@ -675,13 +683,14 @@ class NumberNPuzzle(QMainWindow):
         self.pushButton_2.clicked.connect(IDS)
         self.pushButton_3.setText(_translate("Form", "Greedy Best First Search (MHT)"))
         self.pushButton_3.clicked.connect(Greedy)
-        self.pushButton_4.setText(_translate("Form", "A* (misplaced tiles)"))
+        self.pushButton_4.setText(_translate("Form", "A* (Misplaced Tiles)"))
         self.pushButton_4.clicked.connect(AStarMT)
         self.pushButton_5.setText(_translate("Form", "A* (Manhattan)"))
         self.pushButton_5.clicked.connect(AStarMHT)
         self.pushButton_6.setText(_translate("Form", "A* (Weighted Manhattan)"))
         self.pushButton_6.clicked.connect(AStarWMHT)
-        self.pushButton_7.setText(_translate("Form", "PushButton"))
+        self.pushButton_7.setText(_translate("Form", "A* (Linear Conflict)"))
+        self.pushButton_7.clicked.connect(AStarLC)
         self.pushButton_8.setText(_translate("Form", "PushButton"))
 
         self.labelCombobox.setText(_translate("Form", "Number of rows:"))
