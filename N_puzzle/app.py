@@ -11,7 +11,7 @@ from bfs.bfs import BFSAgent
 from dfs.dfs import DFSAgent
 from ids.ids import IDSAgent
 from Uninformed_search import BFSAgent
-from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT
+from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT, GreedyBestFirstSearch
 import math
 from PyQt5.QtWidgets import QLineEdit
 # Using enumeration class to represent direction.
@@ -638,7 +638,15 @@ class NumberNPuzzle(QMainWindow):
             time, num_steps = ids.findMinimumSteps()
             a = str(round(time, 5))
             self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            b = str(num_steps)
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
+        def Greedy():
+            agent = GreedyBestFirstSearch(self.blocks, len(self.blocks[0]))
+            time, num_steps = agent.findMinimumSteps()
+            a = str(round(time, 5))
+            self.time_3.setText(_translate("Form", "  Time: " + str(a)))
+            b = str(num_steps)
+            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + b))
         def AStarMHT():
             a_star = AASTERISK(self.blocks, len(self.blocks[0]))
             time, num_steps = a_star.findMinimumSteps()
@@ -665,8 +673,8 @@ class NumberNPuzzle(QMainWindow):
         self.pushButton_1.clicked.connect(BFS)
         self.pushButton_2.setText(_translate("Form", "IDS"))
         self.pushButton_2.clicked.connect(IDS)
-        self.pushButton_3.setText(_translate("Form", "IDS"))
-        self.pushButton_3.clicked.connect(IDS)
+        self.pushButton_3.setText(_translate("Form", "Greedy Best First Search (MHT)"))
+        self.pushButton_3.clicked.connect(Greedy)
         self.pushButton_4.setText(_translate("Form", "A* (misplaced tiles)"))
         self.pushButton_4.clicked.connect(AStarMT)
         self.pushButton_5.setText(_translate("Form", "A* (Manhattan)"))

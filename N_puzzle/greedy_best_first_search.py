@@ -263,11 +263,11 @@ class BestFirstSearch:
 #         [6,7,0],
 #         [3,2,4]]
 
-board = [[0,2,4,8],
-        [3,1,6,12],
-        [5,9,10,7],
-        [13,14,11,15]]
+# board = [[0,2,4,8],
+#         [3,1,6,12],
+#         [5,9,10,7],
+#         [13,14,11,15]]
 
-a = BestFirstSearch(board, 4)
-duration, num_steps = a.findMinimumSteps()
-print(duration, num_steps)
+# a = BestFirstSearch(board, 4)
+# duration, num_steps = a.findMinimumSteps()
+# print(duration, num_steps)
