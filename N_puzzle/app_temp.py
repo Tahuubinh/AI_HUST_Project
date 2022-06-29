@@ -1,21 +1,17 @@
 import sys
 import random
-import copy
-from time import sleep
 from enum import IntEnum
 from PyQt5.QtWidgets import QLabel, QWidget, QApplication, QGridLayout, QMessageBox
 from PyQt5.QtGui import QFont, QPalette
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
-from numpy import empty
 from ui_object.Block import Block
 from bfs.bfs import BFSAgent
 from dfs.dfs import DFSAgent
 from ids.ids import IDSAgent
-from ida.ida import IDAAgent
 from Uninformed_search import BFSAgent
-from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT, GreedyBestFirstSearch, AASTERISKLinearConflict
+from A_asterisk import AASTERISK
 import math
 from PyQt5.QtWidgets import QLineEdit
 # Using enumeration class to represent direction.
@@ -33,8 +29,6 @@ class NumberNPuzzle(QMainWindow):
         self.zero_row = 0
         self.zero_column = 0
         self.num_row = 3
-        self.way = list()
-        self.start_blocks = self.blocks.copy()
         self.gltMain = QGridLayout()
         self.initUI()
 
@@ -625,88 +619,46 @@ class NumberNPuzzle(QMainWindow):
         def BFS():
             cells = [x for xs in self.blocks for x in xs]
             bfs = BFSAgent(cells, math.isqrt(len(cells)))
-            time, num_steps, path = bfs.findMinimumSteps()
+            time, num_steps = bfs.findMinimumSteps()
             a = str(round(time, 6))
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + b))
-            self.way = path
-            #self.start_blocks = self.blocks.copy()
-            #self.simulatePath(path)
-        # def DFS():
-        #     cells = [x for xs in self.blocks for x in xs]
-        #     dfs = DFSAgent(cells, math.isqrt(len(cells)))
-        #     time, num_steps = dfs.findMinimumSteps()
-        #     a = str(round(time, 5))
-        #     self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-        #     b = str(num_steps)
-        #     self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
+        def DFS():
+            cells = [x for xs in self.blocks for x in xs]
+            dfs = DFSAgent(cells, math.isqrt(len(cells)))
+            time, num_steps = dfs.findMinimumSteps()
+            a = str(round(time, 5))
+            self.time_2.setText(_translate("Form", "  Time: " + str(a)))
+            b = str(num_steps)
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
         def IDS():
             cells = [x for xs in self.blocks for x in xs]
             ids = IDSAgent(cells, math.isqrt(len(cells)))
             time, num_steps = ids.findMinimumSteps()
             a = str(round(time, 5))
-            self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
-        def Greedy():
-            agent = GreedyBestFirstSearch(self.blocks, len(self.blocks[0]))
-            time, num_steps = agent.findMinimumSteps()
-            a = str(round(time, 5))
             self.time_3.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + b))
+            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         def AStarMHT():
             a_star = AASTERISK(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
-            a = str(round(time, 6))
-            self.time_5.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_5.setText(_translate("Form", "  Number of steps: " + b))
-        def AStarMT():
-            a_star = AASTERISKMisTiles(self.blocks, len(self.blocks[0]))
             time, num_steps = a_star.findMinimumSteps()
             a = str(round(time, 6))
             self.time_4.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_4.setText(_translate("Form", "  Number of steps: " + b))
-        def AStarWMHT():
-            a_star = AASTERISKWeighMHT(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
-            a = str(round(time, 6))
-            self.time_6.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_6.setText(_translate("Form", "  Number of steps: " + b))
-        def AStarLC():
-            a_star = AASTERISKLinearConflict(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
-            a = str(round(time, 6))
-            self.time_7.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_7.setText(_translate("Form", "  Number of steps: " + b))
-        def IDA():
-            cells = [x for xs in self.blocks for x in xs]
-            ids = IDAAgent(cells, math.isqrt(len(cells)))
-            time, num_steps = ids.findMinimumSteps()
-            a = str(round(time, 5))
-            self.time_8.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_8.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+        
         self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
-        self.pushButton_2.setText(_translate("Form", "IDS"))
-        self.pushButton_2.clicked.connect(IDS)
-        self.pushButton_3.setText(_translate("Form", "Greedy Best First Search (MHT)"))
-        self.pushButton_3.clicked.connect(Greedy)
-        self.pushButton_4.setText(_translate("Form", "A* (Misplaced Tiles)"))
-        self.pushButton_4.clicked.connect(AStarMT)
-        self.pushButton_5.setText(_translate("Form", "A* (Manhattan)"))
-        self.pushButton_5.clicked.connect(AStarMHT)
-        self.pushButton_6.setText(_translate("Form", "A* (Weighted Manhattan)"))
-        self.pushButton_6.clicked.connect(AStarWMHT)
-        self.pushButton_7.setText(_translate("Form", "A* (Linear Conflict)"))
-        self.pushButton_7.clicked.connect(AStarLC)
-        self.pushButton_8.setText(_translate("Form", "IDA*"))
-        self.pushButton_8.clicked.connect(IDA)
+        self.pushButton_2.setText(_translate("Form", "DFS"))
+        self.pushButton_2.clicked.connect(DFS)
+        self.pushButton_3.setText(_translate("Form", "IDS"))
+        self.pushButton_3.clicked.connect(IDS)
+        self.pushButton_4.setText(_translate("Form", "A* (Manhattan)"))
+        self.pushButton_4.clicked.connect(AStarMHT)
+        self.pushButton_5.setText(_translate("Form", "PushButton"))
+        self.pushButton_6.setText(_translate("Form", "PushButton"))
+        self.pushButton_7.setText(_translate("Form", "PushButton"))
+        self.pushButton_8.setText(_translate("Form", "PushButton"))
 
         self.labelCombobox.setText(_translate("Form", "Number of rows:"))
         self.labelShuffle.setText(_translate("Form", "Shuffle:"))
@@ -725,27 +677,20 @@ class NumberNPuzzle(QMainWindow):
         #self.resetBtn.clicked.connect(lambda: print("hello"))
         def reset():
             self.comboBox.setCurrentText(self.comboBox.currentText())   
-            if self.textShuffle.text():
-                self.num_suffle = int(self.textShuffle.text())      
+            try:
+                self.num_suffle = int(self.textShuffle.text())
+            except Exception as e:
+                return         
             for i in reversed(range(self.gltMain.count())): 
                 self.gltMain.itemAt(i).widget().setParent(None)
             content = int(self.comboBox.currentText())
             self.num_row = content
+    
             self.onInit()
-            # self.start_blocks = self.blocks.copy()
-            # self.blocks = self.blocks.copy()
-            self.start_blocks = list()
-            for i in range(self.num_row):
-                self.start_blocks.append([0] * self.num_row)
-            for i in range(self.num_row):
-                for j in range(self.num_row):
-                    self.start_blocks[i][j] = self.blocks[i][j]
-            # print(self.start_blocks)
-            #self.start_blocks = []
         self.resetBtn.clicked.connect(reset)
 
-        self.num_of_steps_1.setText(_translate("Form", "  Number of steps: "))
         self.time_1.setText(_translate("Form", "  Time: "))
+        self.num_of_steps_1.setText(_translate("Form", "  Number of steps: "))
         self.num_of_steps_2.setText(_translate("Form", "  Number of steps: "))
         self.time_2.setText(_translate("Form", "  Time: "))
         self.num_of_steps_3.setText(_translate("Form", "  Number of steps: "))
@@ -791,64 +736,11 @@ class NumberNPuzzle(QMainWindow):
             self.move(Direction.RIGHT)
         if(key == Qt.Key_Right or key == Qt.Key_D):
             self.move(Direction.LEFT)
-        if(key == Qt.Key_B):
-            self.simulateOneStep()
-        if(key == Qt.Key_U):
-            for i in range(self.num_row):
-                for j in range(self.num_row):
-                    self.blocks[i][j] = self.start_blocks[i][j]
-            
-            for i in range(self.num_row):
-                for j in range(self.num_row):
-                    if self.start_blocks[i][j] == 0:
-                        self.zero_row = i
-                        self.zero_column = j
-
-            #print(self.start_blocks)
-            #self.blocks = self.start_blocks
-
         self.updatePanel()
-        # if self.checkResult():
-        #     if QMessageBox.Ok == QMessageBox.information(self, 'Challenge Results', 'Congratulations on completing the challenge!'):
-        #         self.onInit()
+        if self.checkResult():
+            if QMessageBox.Ok == QMessageBox.information(self, 'Challenge Results', 'Congratulations on completing the challenge!'):
+                self.onInit()
     # Block moving algorithm.
-
-    def simulatePath(self, path):
-        #self.start_blocks = copy.copy(self.blocks)
-        while path:
-            move = path.pop()
-            print(move)
-            if(move == 'D'):
-                self.move(Direction.UP)
-            if(move == 'U'):
-                self.move(Direction.DOWN)
-            if(move == 'R'):
-                self.move(Direction.LEFT)
-            if(move == 'L'):
-                self.move(Direction.RIGHT)
-            self.updatePanel()
-            
-        # sleep(1)
-        # self.blocks = self.start_blocks
-        # self.updatePanel()
-
-    def simulateOneStep(self):
-        if self.way:
-            move = self.way.pop()
-            if(move == 'D'):
-                self.move(Direction.UP)
-            if(move == 'U'):
-                self.move(Direction.DOWN)
-            if(move == 'R'):
-                self.move(Direction.LEFT)
-            if(move == 'L'):
-                self.move(Direction.RIGHT)
-            
-        # sleep(1)
-        # self.blocks = self.start_blocks
-        # self.updatePanel()
-
-
     def move(self, direction):
         if(direction == Direction.UP): # Move up.
             if self.zero_row != self.num_row - 1:
@@ -870,7 +762,6 @@ class NumberNPuzzle(QMainWindow):
                 self.blocks[self.zero_row][self.zero_column] = self.blocks[self.zero_row][self.zero_column - 1]
                 self.blocks[self.zero_row][self.zero_column - 1] = 0
                 self.zero_column -= 1
-
     def updatePanel(self):
         for row in range(self.num_row):
             for column in range(self.num_row):

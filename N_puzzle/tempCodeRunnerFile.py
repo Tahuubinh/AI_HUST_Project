@@ -1,1 +1,1 @@
-print
+start_blocks

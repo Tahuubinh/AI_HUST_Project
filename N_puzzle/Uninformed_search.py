@@ -2,6 +2,7 @@ from collections import deque
 #from nodeBFS import Node
 from cmath import inf
 import math, time
+import copy
 
 class BFSAgent:
     def __init__(self, cells, width) -> None:
@@ -24,10 +25,16 @@ class BFSAgent:
             if node.isSolved():
                 end = time.time()
                 duration = end - start
-                return duration, node_ord_step
+                temp = copy.copy(node)
+                path = []
+                while temp.p_action != None:
+                    path.append(temp.p_action)
+                    temp = temp.parent
+                #print(path)
+                return duration, node_ord_step, path
             for next_state, action in node.getNextStates():
                 child = Node(cells = next_state, width = self.width, parent = node, 
-                    ordinal_step = node_ord_step + 1)
+                    p_action = action, ordinal_step = node_ord_step + 1)
                 if str(child.cells) not in visited:
                     BFSqueue.appendleft(child)
                     visited.add(str(child.cells))
