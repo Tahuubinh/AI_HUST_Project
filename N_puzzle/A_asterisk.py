@@ -116,7 +116,7 @@ class Block_Puzzle:
         for index in range(1, len(self.blocks), 1):
             if self.blocks[index] != other.blocks[index]:
                 estimate += 1
-        print("Estimate: " + str(estimate))
+        #print("Estimate: " + str(estimate))
         return estimate
 
     def heuristic_estimate_maxSwap(self, other):
@@ -487,5 +487,5 @@ board = [[6,5,2,3],
 #a = AASTERISKMisTiles(board, 4)
 a = AASTERISKWeighMHT(board, 4)
 #a = AASTERISKMaxSwap(board, 4)
-duration, num_steps = a.findMinimumSteps()
-print(duration, num_steps)
+# duration, num_steps = a.findMinimumSteps()
+# print(duration, num_steps)

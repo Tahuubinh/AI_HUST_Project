@@ -184,50 +184,26 @@ class BestFirstSearch:
         self.width = width
 
     def run_BestFirstSearch(self, start, goal):
-        """
-        A star search algorithm. Takes a start state and an end state.
-        While there are available moves, loops through them and exits if the end is found.
-        Returns the list of states that are the "quickest" way to the end.
-        """
-        # The set of states already evaluated
+       
         closedSet = set()
 
-        # For each node, which node it can most efficiently be reached from.
-        # If a node can be reached from many start, cameFrom will eventually contain the
-        # most efficient previous step.
         cameFrom = {}
 
-        # For each node, the total cost of getting from the start node to the goal
-        # by passing by that node. That value is partly known, partly heuristic.
-        # This variable is global for the Block_Puzzle object's __lt__ method.
         global fScore
         fScore = collections.defaultdict(lambda: float("inf"))
 
-        # For each node, the cost of getting from the start node to that node.
-        # This variable is global for the Block_Puzzle object's __lt__ method.
-
-        # The heap of currently discovered state that are not evaluated yet.
-        # Initially, only the start state is known.
         openHeap = [start]
         heapq.heapify(openHeap)
 
-        # For the first node, that value is completely heuristic.
         fScore[start] = start.heuristic_estimate_manhattan(goal)
 
-        # While there are yet nodes to inspect,
         while openHeap:
-            # Get the lowest f-score state not yet evaluated.
             current = heapq.heappop(openHeap)
 
-            # print(len(openHeap))
-
-            # Skip this state if it's a duplicate of one that's already been evaluated.
             if current in closedSet:
                 continue
 
-            # If we've reached the goal:
             if current == goal:
-                # return the list of states it took to get there.
                 path = []
                 path.append(current)
                 cnt = 0
@@ -239,40 +215,28 @@ class BestFirstSearch:
                 path.reverse()
                 return cnt
 
-            # make sure we don't visit this state again.
             closedSet.add(current)
 
-            # For each possible neighbor of our current state,
             for neighbor in current.get_neighbors(cameFrom.get(current)):
-                # Skip it if it's already been evaluated
                 if neighbor in closedSet:
                     continue
 
                 cameFrom[neighbor] = current
                 fScore[neighbor] = neighbor.heuristic_estimate_manhattan(goal)
                 
-                # Finally, add it to our open heap
                 heapq.heappush(openHeap, neighbor)
 
     #### SOLVER FUNCTION ####
 
     def findMinimumSteps(self):
-        # from the cell list provided, create a Block Puzzle.
         start = Block_Puzzle(self.board)
 
-        # find the solution puzzle for the given puzzle.
         goal = start.create_solved_puzzle()
 
-        # run A* search algorithm.
         begin = time.time()
         num_steps = self.run_BestFirstSearch(start, goal)
         end = time.time()
 
-        # convert into single-letter moves.
-        # moves = []
-        # for index in range(len(path)-1):
-        #     moves.append(path[index].get_move(path[index+1]))
-        # return moves
         return end - begin, num_steps
 
 

@@ -11,7 +11,7 @@ from bfs.bfs import BFSAgent
 from dfs.dfs import DFSAgent
 from ids.ids import IDSAgent
 from Uninformed_search import BFSAgent
-from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT
+from A_asterisk import AASTERISK
 import math
 from PyQt5.QtWidgets import QLineEdit
 # Using enumeration class to represent direction.
@@ -624,55 +624,39 @@ class NumberNPuzzle(QMainWindow):
             self.time_1.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_1.setText(_translate("Form", "  Number of steps: " + b))
-        # def DFS():
-        #     cells = [x for xs in self.blocks for x in xs]
-        #     dfs = DFSAgent(cells, math.isqrt(len(cells)))
-        #     time, num_steps = dfs.findMinimumSteps()
-        #     a = str(round(time, 5))
-        #     self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-        #     b = str(num_steps)
-        #     self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
+        def DFS():
+            cells = [x for xs in self.blocks for x in xs]
+            dfs = DFSAgent(cells, math.isqrt(len(cells)))
+            time, num_steps = dfs.findMinimumSteps()
+            a = str(round(time, 5))
+            self.time_2.setText(_translate("Form", "  Time: " + str(a)))
+            b = str(num_steps)
+            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
         def IDS():
             cells = [x for xs in self.blocks for x in xs]
             ids = IDSAgent(cells, math.isqrt(len(cells)))
             time, num_steps = ids.findMinimumSteps()
             a = str(round(time, 5))
-            self.time_2.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
+            self.time_3.setText(_translate("Form", "  Time: " + str(a)))
+            self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         def AStarMHT():
             a_star = AASTERISK(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
-            a = str(round(time, 6))
-            self.time_5.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_5.setText(_translate("Form", "  Number of steps: " + b))
-        def AStarMT():
-            a_star = AASTERISKMisTiles(self.blocks, len(self.blocks[0]))
             time, num_steps = a_star.findMinimumSteps()
             a = str(round(time, 6))
             self.time_4.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_4.setText(_translate("Form", "  Number of steps: " + b))
-        def AStarWMHT():
-            a_star = AASTERISKWeighMHT(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
-            a = str(round(time, 6))
-            self.time_6.setText(_translate("Form", "  Time: " + str(a)))
-            b = str(num_steps)
-            self.num_of_steps_6.setText(_translate("Form", "  Number of steps: " + b))
         
         self.pushButton_1.setText(_translate("Form", "BFS"))
         self.pushButton_1.clicked.connect(BFS)
-        self.pushButton_2.setText(_translate("Form", "IDS"))
-        self.pushButton_2.clicked.connect(IDS)
+        self.pushButton_2.setText(_translate("Form", "DFS"))
+        self.pushButton_2.clicked.connect(DFS)
         self.pushButton_3.setText(_translate("Form", "IDS"))
         self.pushButton_3.clicked.connect(IDS)
-        self.pushButton_4.setText(_translate("Form", "A* (misplaced tiles)"))
-        self.pushButton_4.clicked.connect(AStarMT)
-        self.pushButton_5.setText(_translate("Form", "A* (Manhattan)"))
-        self.pushButton_5.clicked.connect(AStarMHT)
-        self.pushButton_6.setText(_translate("Form", "A* (Weighted Manhattan)"))
-        self.pushButton_6.clicked.connect(AStarWMHT)
+        self.pushButton_4.setText(_translate("Form", "A* (Manhattan)"))
+        self.pushButton_4.clicked.connect(AStarMHT)
+        self.pushButton_5.setText(_translate("Form", "PushButton"))
+        self.pushButton_6.setText(_translate("Form", "PushButton"))
         self.pushButton_7.setText(_translate("Form", "PushButton"))
         self.pushButton_8.setText(_translate("Form", "PushButton"))
 
