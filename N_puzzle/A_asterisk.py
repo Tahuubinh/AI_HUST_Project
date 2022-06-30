@@ -598,6 +598,62 @@ class GreedyBestFirstSearch(AASTERISK):
                     fScore[neighbor] = neighbor.heuristic_estimate_manhattan(goal)
                 
                 heapq.heappush(openHeap, neighbor)
+
+class GreedyLinearConflict(AASTERISK):
+    def __init__(self, board, width) -> None:
+        # self.board = board
+        # self.width = width
+        super().__init__(board, width)
+
+    def run_Astar(self, start, goal):
+        closedSet = set()
+        cameFrom = {}
+
+        global fScore
+        fScore = collections.defaultdict(lambda: float("inf"))
+
+        global gScore
+        gScore = collections.defaultdict(lambda: float("inf"))
+
+        gScore[start] = 0
+
+        openHeap = [start]
+        heapq.heapify(openHeap)
+
+        fScore[start] = start.heuristic_estimate_linear_conflict(goal)
+
+        while openHeap:
+            current = heapq.heappop(openHeap)
+
+            if current in closedSet:
+                continue
+
+            if current == goal:
+                end = time.time()
+                path = []
+                path.append(current)
+                cnt = 0
+                step = current
+                while(cameFrom.get(step)):
+                    path.append(cameFrom[step])
+                    step = cameFrom[step]
+                    cnt = cnt + 1
+                path.reverse()
+                return cnt, end
+
+            closedSet.add(current)
+
+            for neighbor in current.get_neighbors(cameFrom.get(current)):
+                if neighbor in closedSet:
+                    continue
+
+                tentative_gScore = gScore[current] + 1
+                if tentative_gScore < gScore[neighbor]:
+                    cameFrom[neighbor] = current
+                    gScore[neighbor] = tentative_gScore
+                    fScore[neighbor] = neighbor.heuristic_estimate_linear_conflict(goal)
+                
+                heapq.heappush(openHeap, neighbor)
     
     
 
@@ -608,7 +664,7 @@ class GreedyBestFirstSearch(AASTERISK):
 #         [0,7,11,4],
 #         [9,1,10,8],
 #         [15,14,13,12]]
-# print(solve(hard))
+#print(solve(hard))
 
 # medium = [[1,2,3,4],
 #           [0,7,11,5],
@@ -634,7 +690,8 @@ class GreedyBestFirstSearch(AASTERISK):
 #a = AASTERISKMisTiles(board, 4)
 #a = AASTERISKWeighMHT(board, 4)
 #a = AASTERISKMaxSwap(board, 4)
-# a = GreedyBestFirstSearch(board, 4)
-# a = AASTERISKLinearConflict(board, 4)
+#a = GreedyBestFirstSearch(board, 4)
+#a = GreedyLinearConflict(board, 4)
+#a = AASTERISKLinearConflict(board, 4)
 # duration, num_steps = a.findMinimumSteps()
 # print(duration, num_steps)
