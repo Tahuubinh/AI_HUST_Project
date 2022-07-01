@@ -32,8 +32,7 @@ Click on the name of any algorithm to run.
 Choose the number of row, fill in the Suffle box and click to the Reset button to suffle the N-Puzzle
 
 ## DEVELOPMENT
-You can add your own start blocks in file app.py. At line 37, you set the block you want, and in line 35, you set the num_row of the block.
+You can add your own start blocks in file `app.py`. At line 37, you set the block you want, and in line 35, you set the num_row of the block.
 
-To better understand what is written in this, you can see the article [Ứng dụng Trí tuệ nhân tạo tìm
-số bước đi tối thiểu thắng trò chơi N-puzzle] (https://www.overleaf.com/project/62b3e8816b24134e7bedcbe5)
+To better understand what is written in this, you can see the article [AI_HUST_N-PUZZLE] (https://www.overleaf.com/project/62b3e8816b24134e7bedcbe5)
 
