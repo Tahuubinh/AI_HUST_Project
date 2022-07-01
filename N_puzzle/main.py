@@ -1,4 +1,4 @@
-from Uninformed_search import BFSAgent
+from algorithm.Uniformed.Uninformed_search import BFSAgent
 import math
 
 cells = [8,5,1,

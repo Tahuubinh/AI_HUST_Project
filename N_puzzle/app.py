@@ -32,10 +32,7 @@ class NumberNPuzzle(QMainWindow):
         self.zero_column = 0
         self.num_row = 4
         self.way = list()
-        self.start_blocks = [[6,4,0],
-                            [7,1,5],
-                            [2,3,8],
-                             ]
+        self.start_blocks = []
         self.gltMain = QGridLayout()
         self.initUI()
 
@@ -685,13 +682,6 @@ class NumberNPuzzle(QMainWindow):
             self.time_7.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_7.setText(_translate("Form", "  Number of steps: " + b))
-        def IDA():
-            cells = [x for xs in self.blocks for x in xs]
-            ids = IDAAgent(cells, math.isqrt(len(cells)))
-            time, num_steps = ids.findMinimumSteps()
-            a = str(round(time, 5))
-            self.time_8.setText(_translate("Form", "  Time: " + str(a)))
-            self.num_of_steps_8.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         def GreedyLC():
             agent = GreedyLinearConflict(self.blocks, len(self.blocks[0]))
             time, num_steps, self.way = agent.findMinimumSteps()
@@ -788,10 +778,10 @@ class NumberNPuzzle(QMainWindow):
         for i in range(self.num_suffle):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
-        if len(self.start_blocks):
-            self.blocks = self.start_blocks
-            self.num_row = len(self.start_blocks)
-            self.start_blocks = []
+        # if len(self.start_blocks):
+        #     self.blocks = self.start_blocks
+        #     self.num_row = len(self.start_blocks)
+        #     self.start_blocks = []
         self.updatePanel()
 
     def resetStartBlock(self):
