@@ -276,8 +276,8 @@ class AASTERISK:
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                ##path.reverse()
+                return cnt, end, path
 
             # make sure we don't visit this state again.
             closedSet.add(current)
@@ -310,14 +310,13 @@ class AASTERISK:
 
         # run A* search algorithm.
         begin = time.time()
-        num_steps, end = self.run_Astar(start, goal)
+        num_steps, end, path = self.run_Astar(start, goal)
 
         # convert into single-letter moves.
-        # moves = []
-        # for index in range(len(path)-1):
-        #     moves.append(path[index].get_move(path[index+1]))
-        # return moves
-        return end - begin, num_steps
+        moves = []
+        for index in range(len(path)-1):
+            moves.append(path[index].get_move(path[index+1]))
+        return end - begin, num_steps, moves
 
 class AASTERISKMisTiles(AASTERISK):
     def __init__(self, board, width) -> None:
@@ -358,8 +357,8 @@ class AASTERISKMisTiles(AASTERISK):
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                #path.reverse()
+                return cnt, end, path
 
             closedSet.add(current)
 
@@ -414,8 +413,8 @@ class AASTERISKWeighMHT(AASTERISK):
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                #path.reverse()
+                return cnt, end, path
 
             closedSet.add(current)
 
@@ -470,8 +469,8 @@ class AASTERISKMaxSwap(AASTERISK):
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                #path.reverse()
+                return cnt, end, path
 
             closedSet.add(current)
 
@@ -526,8 +525,8 @@ class AASTERISKLinearConflict(AASTERISK):
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                #path.reverse()
+                return cnt, end, path
 
             closedSet.add(current)
 
@@ -582,8 +581,8 @@ class GreedyBestFirstSearch(AASTERISK):
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                #path.reverse()
+                return cnt, end, path
 
             closedSet.add(current)
 
@@ -638,8 +637,8 @@ class GreedyLinearConflict(AASTERISK):
                     path.append(cameFrom[step])
                     step = cameFrom[step]
                     cnt = cnt + 1
-                path.reverse()
-                return cnt, end
+                #path.reverse()
+                return cnt, end, path
 
             closedSet.add(current)
 
@@ -686,12 +685,17 @@ class GreedyLinearConflict(AASTERISK):
 #         [5,9,10,7],
 #         [13,14,11,15]]
 
+# board = [[9,7,5,4],
+#         [6,1,0,8],
+#         [10,3,14,11],
+#         [13,15,2,12]]
+
 #a = AASTERISK(board, 4)
 #a = AASTERISKMisTiles(board, 4)
 #a = AASTERISKWeighMHT(board, 4)
 #a = AASTERISKMaxSwap(board, 4)
 #a = GreedyBestFirstSearch(board, 4)
 #a = GreedyLinearConflict(board, 4)
-#a = AASTERISKLinearConflict(board, 4)
-# duration, num_steps = a.findMinimumSteps()
-# print(duration, num_steps)
+# a = AASTERISKLinearConflict(board, 4)
+#duration, num_steps, moves = a.findMinimumSteps()
+#print(duration, num_steps, moves)
