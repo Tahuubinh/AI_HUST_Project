@@ -13,7 +13,6 @@ N-PUZZLE problem using Uninformed Search and Informed Search to to solve the pro
 3. [Dependencies](#Dependencies)
 4. [INSTALLATION](#INSTALLATION)
 5. [QUICK USE](#QUICK-USE)
-6. [DEVELOPMENT](#DEVELOPMENT)
 ## Dependencies
 Python version 3.8 or greater
 ## INSTALLATION
@@ -30,9 +29,6 @@ python app.py
 ```
 Click on the name of any algorithm to run.
 Choose the number of row, fill in the Suffle box and click to the Reset button to suffle the N-Puzzle
-
-## DEVELOPMENT
-You can add your own start blocks in file `app.py`. At line 37, you set the block you want, and in line 35, you set the num_row of the block.
 
 To better understand what is written in this, you can see the article [Application of Artificial Intelligence find the minimum number of steps to win the game N-puzzle](https://www.overleaf.com/project/62b3e8816b24134e7bedcbe5)
 
