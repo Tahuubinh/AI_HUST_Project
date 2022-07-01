@@ -10,12 +10,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from numpy import empty
 from ui_object.Block import Block
-from bfs.bfs import BFSAgent
-from dfs.dfs import DFSAgent
-from ids.ids import IDSAgent
-from ida.ida import IDAAgent
-from Uninformed_search import BFSAgent
-from A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT, GreedyBestFirstSearch, AASTERISKLinearConflict, GreedyLinearConflict
+from algorithm.bfs.bfs import BFSAgent
+from algorithm.ids.ids import IDSAgent
+from algorithm.Uniformed.Uninformed_search import BFSAgent
+from algorithm.A_asterisk.A_asterisk import AASTERISK, AASTERISKMisTiles, AASTERISKWeighMHT, GreedyBestFirstSearch, AASTERISKLinearConflict, GreedyLinearConflict
 import math
 from PyQt5.QtWidgets import QLineEdit
 # Using enumeration class to represent direction.
@@ -32,9 +30,12 @@ class NumberNPuzzle(QMainWindow):
         self.num_suffle = 200
         self.zero_row = 0
         self.zero_column = 0
-        self.num_row = 3
+        self.num_row = 4
         self.way = list()
-        self.start_blocks = self.blocks.copy()
+        self.start_blocks = [[6,4,0],
+                            [7,1,5],
+                            [2,3,8],
+                             ]
         self.gltMain = QGridLayout()
         self.initUI()
 
@@ -783,9 +784,14 @@ class NumberNPuzzle(QMainWindow):
                     self.zero_column = column
                 self.blocks[row].append(temp)
         # Scrambling the array.
+        
         for i in range(self.num_suffle):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
+        if len(self.start_blocks):
+            self.blocks = self.start_blocks
+            self.num_row = len(self.start_blocks)
+            self.start_blocks = []
         self.updatePanel()
     # Detect key press event.
     def keyPressEvent(self, event):
