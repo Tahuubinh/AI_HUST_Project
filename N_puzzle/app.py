@@ -651,35 +651,35 @@ class NumberNPuzzle(QMainWindow):
             self.num_of_steps_2.setText(_translate("Form", "  Number of steps: " + b))
         def Greedy():
             agent = GreedyBestFirstSearch(self.blocks, len(self.blocks[0]))
-            time, num_steps = agent.findMinimumSteps()
+            time, num_steps, self.way = agent.findMinimumSteps()
             a = str(round(time, 5))
             self.time_3.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + b))
         def AStarMHT():
             a_star = AASTERISK(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
+            time, num_steps, self.way = a_star.findMinimumSteps()
             a = str(round(time, 5))
             self.time_5.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_5.setText(_translate("Form", "  Number of steps: " + b))
         def AStarMT():
             a_star = AASTERISKMisTiles(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
+            time, num_steps, self.way = a_star.findMinimumSteps()
             a = str(round(time, 5))
             self.time_4.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_4.setText(_translate("Form", "  Number of steps: " + b))
         def AStarWMHT():
             a_star = AASTERISKWeighMHT(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
+            time, num_steps, self.way = a_star.findMinimumSteps()
             a = str(round(time, 5))
             self.time_6.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
             self.num_of_steps_6.setText(_translate("Form", "  Number of steps: " + b))
         def AStarLC():
             a_star = AASTERISKLinearConflict(self.blocks, len(self.blocks[0]))
-            time, num_steps = a_star.findMinimumSteps()
+            time, num_steps, self.way = a_star.findMinimumSteps()
             a = str(round(time, 5))
             self.time_7.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
@@ -693,7 +693,7 @@ class NumberNPuzzle(QMainWindow):
             self.num_of_steps_8.setText(_translate("Form", "  Number of steps: " + str(num_steps)))
         def GreedyLC():
             agent = GreedyLinearConflict(self.blocks, len(self.blocks[0]))
-            time, num_steps = agent.findMinimumSteps()
+            time, num_steps, self.way = agent.findMinimumSteps()
             a = str(round(time, 5))
             self.time_8.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
@@ -787,17 +787,30 @@ class NumberNPuzzle(QMainWindow):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
         self.updatePanel()
+
+    def resetStartBlock(self):
+        self.start_blocks = list()
+        for i in range(self.num_row):
+            self.start_blocks.append([0] * self.num_row)
+        for i in range(self.num_row):
+            for j in range(self.num_row):
+                self.start_blocks[i][j] = self.blocks[i][j]
+
     # Detect key press event.
     def keyPressEvent(self, event):
         key = event.key()
         if(key == Qt.Key_Up or key == Qt.Key_W):
             self.move(Direction.DOWN)
+            self.resetStartBlock()
         if(key == Qt.Key_Down or key == Qt.Key_S):
             self.move(Direction.UP)
+            self.resetStartBlock()
         if(key == Qt.Key_Left or key == Qt.Key_A):
             self.move(Direction.RIGHT)
+            self.resetStartBlock()
         if(key == Qt.Key_Right or key == Qt.Key_D):
             self.move(Direction.LEFT)
+            self.resetStartBlock()
         if(key == Qt.Key_B):
             self.simulateOneStep()
         if(key == Qt.Key_U):
