@@ -29,10 +29,10 @@ class NumberNPuzzle(QMainWindow):
     def __init__(self):
         super(NumberNPuzzle, self).__init__()
         self.blocks = []
-        self.num_suffle = 200
+        self.num_suffle = 100
         self.zero_row = 0
         self.zero_column = 0
-        self.num_row = 3
+        self.num_row = 4
         self.way = list()
         self.start_blocks = self.blocks.copy()
         self.gltMain = QGridLayout()
