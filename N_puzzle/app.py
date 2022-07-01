@@ -655,7 +655,6 @@ class NumberNPuzzle(QMainWindow):
             a = str(round(time, 5))
             self.time_3.setText(_translate("Form", "  Time: " + str(a)))
             b = str(num_steps)
-            print(b)
             self.num_of_steps_3.setText(_translate("Form", "  Number of steps: " + b))
         def AStarMHT():
             a_star = AASTERISK(self.blocks, len(self.blocks[0]))
