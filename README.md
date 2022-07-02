@@ -1,6 +1,7 @@
 # AI_HUST_N-PUZZLE
 
 ## Introduction
+This repo contains our project in *Introduction to Artificial Intelligence* subject at Hanoi University of Science and Technology  
 N-PUZZLE problem using Uninformed Search and Informed Search to to solve the problem and check the efficiency through experiments.
 
 ## Contribute
@@ -10,25 +11,47 @@ N-PUZZLE problem using Uninformed Search and Informed Search to to solve the pro
 ## Table of contents
 1. [Introduction](#Introduction)
 2. [Contribute](#Contribute)
-3. [Dependencies](#Dependencies)
-4. [INSTALLATION](#INSTALLATION)
-5. [QUICK USE](#QUICK-USE)
-## Dependencies
-Python version 3.8 or greater
-## INSTALLATION
+3. [Requirement](#Dependencies)
+4. [Installation](#INSTALLATION)
+5. [Quick use](#QUICK-USE)
+## Requirement
+**Programming language**: Python version 3.8 or greater  
+**Library**: PyQt5  
+## Installation
 Import PyQT5 library:
 ```
 pip install PyQt5
 ```
 
-## QUICK USE
-Run N-PUZZLE app
+## Quick use
+Run N-PUZZLE app:
 ```
 cd N_puzzle
 python app.py
 ```
+
+or
+
+Run **app.py** file in **N_puzzle** folder to start the program.
+
+![image](Illustration/AppDetails.png)  
+
+
 Click on the name of any algorithm to run.
-Choose the number of row, fill in the Suffle box and click to the Reset button to suffle the N-Puzzle
+Choose the number of rows, fill in the `Shuffle` box and click the Reset button to suffle the N-Puzzle.
+
+The main components of the program are shown in the image above:
+
++ **Number of rows**: Decide the number of rows on the board.
+
++ **Shuffle**: Decide the number of shuffle times from the goal state.
+
++ **Reset**: Make a new game.
+
+Key event: 
++ To move the empty tile, press A to move left, D to move right, W to move up, or S to move down.  
++ Press B to simulate the path from origin state to goal one.  
++ Press U to go back to the origin state.  
 
 To better understand what is written in this, you can see the article [Application of Artificial Intelligence find the minimum number of steps to win the game N-puzzle](https://www.overleaf.com/project/62b3e8816b24134e7bedcbe5)
 
