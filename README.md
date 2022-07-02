@@ -34,7 +34,7 @@ or
 
 Run **app.py** file in **N_puzzle** folder to start the program.
 
-![image](Illustration/AppDetails.png)  
+![image](Illustration/StateIllustration.png)  
 
 
 Click on the name of any algorithm to run.
@@ -49,9 +49,9 @@ The main components of the program are shown in the image above:
 + **Reset**: Make a new game.
 
 Key event: 
-+ To move the empty tile, press A to move left, D to move right, W to move up, or S to move down.  
-+ Press B to simulate the path from origin state to goal one.  
-+ Press U to go back to the origin state.  
++ To move the empty tile, press **A** to move left, **D** to move right, **W** to move up, or **S** to move down.  
++ Press **B** to simulate the path from origin state to goal one.  
++ Press **U** to go back to the origin state.  
 
-To better understand what is written in this, you can see the article [Application of Artificial Intelligence find the minimum number of steps to win the game N-puzzle](https://www.overleaf.com/project/62b3e8816b24134e7bedcbe5)
+<!-- To better understand what is written in this, you can see the article [Application of Artificial Intelligence find the minimum number of steps to win the game N-puzzle] -->
 
