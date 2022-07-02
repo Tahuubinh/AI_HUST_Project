@@ -38,7 +38,7 @@ Run **app.py** file in **N_puzzle** folder to start the program.
 
 
 Click on the name of any algorithm to run.
-Choose the `number of rows`, fill in the `Shuffle` box and then click to the `Reset` button to suffle game N-Puzzle.
+Choose the `number of rows`, fill in the `Shuffle` box and then click to the `Reset` button to shuffle the board from its goal state.
 
 The main components of the program are shown in the image above:
 
