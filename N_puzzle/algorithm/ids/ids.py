@@ -61,7 +61,7 @@ class IDSAgent:
                         IDSstack.append(child)
                         visited.add(str(child.cells)+ str(child.ordinal_step) )                       
             if self.minimum_steps != inf:
-                print("Number of steps: " + str(self.minimum_steps))
+                # print("Number of steps: " + str(self.minimum_steps))
                 break
         end = time.time()
         duration = end - start   

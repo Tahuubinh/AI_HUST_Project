@@ -30,9 +30,9 @@ class NumberNPuzzle(QMainWindow):
         self.num_suffle = 100
         self.zero_row = 0
         self.zero_column = 0
-        self.num_row = 4
+        self.num_row = 5
         self.way = list()
-        self.start_blocks = []
+        self.start_blocks = [[6,1,4,9,3],[11,2,7,10,0],[16,12,20,13,5],[17,18,8,19,15], [21,22,23,24,14]]
         self.gltMain = QGridLayout()
         self.initUI()
 
@@ -778,10 +778,10 @@ class NumberNPuzzle(QMainWindow):
         for i in range(self.num_suffle):
             random_num = random.randint(0, 3)
             self.move(Direction(random_num))
-        # if len(self.start_blocks):
-        #     self.blocks = self.start_blocks
-        #     self.num_row = len(self.start_blocks)
-        #     self.start_blocks = []
+        if len(self.start_blocks):
+            self.blocks = self.start_blocks
+            self.num_row = len(self.start_blocks)
+            self.start_blocks = []
         self.updatePanel()
 
     def resetStartBlock(self):
