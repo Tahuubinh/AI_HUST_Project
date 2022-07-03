@@ -53,5 +53,5 @@ Key event:
 + Press **B** to simulate the path from origin state to goal one.  
 + Press **U** to go back to the origin state.  
 
-To better understand what is written in this, you can see the article [Application of Artificial Intelligence find the minimum number of steps to win the game N-puzzle] (https://drive.google.com/file/d/1PM2KaY5YixzqP2BLZrAzY4PojcDkoPDf/view?usp=sharing)
+To better understand what is written in this, you can see the article [Application of Artificial Intelligence find the minimum number of steps to win the game N-puzzle](https://drive.google.com/file/d/1PM2KaY5YixzqP2BLZrAzY4PojcDkoPDf/view?usp=sharing)
 
